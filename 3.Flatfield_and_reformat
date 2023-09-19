@@ -1,6 +1,6 @@
-	//This macro flatfields all the channels of a multi-channel image acquisition 
+//This macro flatfields all the channels of a multi-channel image acquisition 
 
-	//Select all of the relevant directories 
+//Select all of the relevant directories 
    
    dir = getDirectory("Choose an input directory");
    outputDir = getDirectory("Select an output directory");
@@ -59,94 +59,94 @@
 	       		
 	       		//Subtract camera counts
 	       		open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Raw_data/No_laser/AVG_Stack.tif");
-				imageCalculator("Subtract create stack", "Stack","AVG_Stack.tif");
+			imageCalculator("Subtract create stack", "Stack","AVG_Stack.tif");
 				
-				//Rename the background subtracted image
-				rename("Image");
+			//Rename the background subtracted image
+			rename("Image");
 				
-				//Split the channels 
-				run("Split Channels");
+			//Split the channels 
+			run("Split Channels");
        		    
-       		    //Flatfield the B220 channel 
-				selectWindow("C1-Image");
-				img1 = getTitle(); 
-				open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/405_flatfield/Normalised_Stack.tif");
-				//Crop to be 600x600 pixels to remove uneven illumination at the edges
-				//Adjust for different microscopes
-				makeRectangle(300, 300, 600, 600);
+       		   	//Flatfield the B220 channel 
+			selectWindow("C1-Image");
+			img1 = getTitle(); 
+			open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/405_flatfield/Normalised_Stack.tif");
+			//Crop to be 600x600 pixels to remove uneven illumination at the edges
+			//Adjust for different microscopes
+			makeRectangle(300, 300, 600, 600);
 	       		run("Crop");
-				img2 = getTitle();
-				imageCalculator("Divide create stack", img1, img2);
-				//Rename so easier to merge at the end 
-				selectWindow("Result of C1-Image");
-				rename("B220");
+			img2 = getTitle();
+			imageCalculator("Divide create stack", img1, img2);
+			//Rename so easier to merge at the end 
+			selectWindow("Result of C1-Image");
+			rename("B220");
 				
-				//Flatfield the pSyk channel as for B220 channel
-				selectWindow("C2-Image");
-				img1 = getTitle(); 
-				open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/488_flatfield/Normalised_Stack.tif");
-				makeRectangle(300, 300, 600, 600);
+			//Flatfield the pSyk channel as for B220 channel
+			selectWindow("C2-Image");
+			img1 = getTitle(); 
+			open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/488_flatfield/Normalised_Stack.tif");
+			makeRectangle(300, 300, 600, 600);
 	       		run("Crop");
-				img2 = getTitle();
-				imageCalculator("Divide create stack", img1, img2);
-				selectWindow("Result of C2-Image");
-				rename("pSyk");
+			img2 = getTitle();
+			imageCalculator("Divide create stack", img1, img2);
+			selectWindow("Result of C2-Image");
+			rename("pSyk");
 				
-				//Flatfield the antigen channel as for B220 channel 
-				selectWindow("C3-Image");
-				img1 = getTitle(); 
-				open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/561_flatfield/Normalised_Stack.tif");
-				makeRectangle(300, 300, 600, 600);
+			//Flatfield the antigen channel as for B220 channel 
+			selectWindow("C3-Image");
+			img1 = getTitle(); 
+			open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/561_flatfield/Normalised_Stack.tif");
+			makeRectangle(300, 300, 600, 600);
 	       		run("Crop");
-				img2 = getTitle();
-				imageCalculator("Divide create stack", img1, img2);
-				selectWindow("Result of C3-Image");
-				rename("Ag");
+			img2 = getTitle();
+			imageCalculator("Divide create stack", img1, img2);
+			selectWindow("Result of C3-Image");
+			rename("Ag");
 
-				//Flatfield the internalised antigen channel as for B220 channel
-				selectWindow("C4-Image");
-				img1 = getTitle(); 
-				open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/647_flatfield/Normalised_Stack.tif");
-				makeRectangle(300, 300, 600, 600);
-	       		run("Crop");
-				img2 = getTitle();
-				imageCalculator("Divide create stack", img1, img2);
-				selectWindow("Result of C4-Image");
-				rename("Int_Ag");
+			//Flatfield the internalised antigen channel as for B220 channel
+			selectWindow("C4-Image");
+			img1 = getTitle(); 
+			open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Analysis/TIRF_signalling/1.Flatfields/647_flatfield/Normalised_Stack.tif");
+			makeRectangle(300, 300, 600, 600);
+			run("Crop");
+			img2 = getTitle();
+			imageCalculator("Divide create stack", img1, img2);
+			selectWindow("Result of C4-Image");
+			rename("Int_Ag");
 
-				//Rename the BF channel
-				selectWindow("C5-Image");
-				rename("BF");
-	
-				//Merge channels and save in new order
-				run("Merge Channels...", "c1=Ag c2=Int_Ag c3=pSyk c4=B220 c5=BF create");
-				rename("Merge"); 
-				
-				//Change lookup tables for each channel
-				run("Make Composite");
-				Stack.setDisplayMode("color");
-				Stack.setChannel(1);
-				run("Magenta");
-				resetMinAndMax();
-				Stack.setChannel(2);
-				run("Cyan");
-				resetMinAndMax();
-				Stack.setChannel(3);
-				run("Green");
-				resetMinAndMax();
-				Stack.setChannel(4);
-				run("Yellow");
-				resetMinAndMax();
-				Stack.setChannel(5);
-				run("Grays");
-				resetMinAndMax();
-	
-				//Save the new stack 
-				outName1 = "Flatefielded_" + imagesName;
-				saveAs("tif", outputDir + "/" + outName1);
-	
-				//Close everything
-				run("Close All");
+			//Rename the BF channel
+			selectWindow("C5-Image");
+			rename("BF");
+
+			//Merge channels and save in new order
+			run("Merge Channels...", "c1=Ag c2=Int_Ag c3=pSyk c4=B220 c5=BF create");
+			rename("Merge"); 
+			
+			//Change lookup tables for each channel
+			run("Make Composite");
+			Stack.setDisplayMode("color");
+			Stack.setChannel(1);
+			run("Magenta");
+			resetMinAndMax();
+			Stack.setChannel(2);
+			run("Cyan");
+			resetMinAndMax();
+			Stack.setChannel(3);
+			run("Green");
+			resetMinAndMax();
+			Stack.setChannel(4);
+			run("Yellow");
+			resetMinAndMax();
+			Stack.setChannel(5);
+			run("Grays");
+			resetMinAndMax();
+
+			//Save the new stack 
+			outName1 = "Flatefielded_" + imagesName;
+			saveAs("tif", outputDir + "/" + outName1);
+
+			//Close everything
+			run("Close All");
        		}
         }
   }
