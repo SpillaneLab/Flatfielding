@@ -1,6 +1,6 @@
-	//This macro changes the image type to composite
+//This macro changes the image type to composite
 
-	//Select all of the relevant directories 
+//Select all of the relevant directories 
    
    dir = getDirectory("Choose an input directory");
    outputDir = getDirectory("Select an output directory");
@@ -50,11 +50,11 @@
        		//Make composite
        		run("Make Composite");
 	
-			//Save stack 
-			outName1 = imagesName;
-			saveAs("tif", outputDir + "/" + outName1);
-	
-			//Close everything
-			run("Close All");
+		//Save stack 
+		outName1 = imagesName;
+		saveAs("tif", outputDir + "/" + outName1);
+
+		//Close everything
+		run("Close All");
        		}
         }
