@@ -1,0 +1,70 @@
+//Create a normalized image which will be used to flatfield raw images
+
+//Select all of the relevant directories
+//Input folder should be where the image stack for that channel is saved 
+//Ensure only the image stack is in the input folder 
+//Output folder can be the same as the input
+
+inputDir = getDirectory("Choose input directory");
+fileList = getFileList(inputDir);
+outputDir =  getDirectory("Select an output directory");
+
+for (i = 0; i < fileList.length; i++) {
+	file = fileList[i];
+	//Open the image stack 
+	open(inputDir + file);
+	
+	//Get the filename
+	imagesName=getTitle();
+	
+	//Duplicate the image
+	run("Duplicate...", "duplicate");
+	
+	//Crop to be 600x600 pixels to remove uneven illumination at the edges
+	//Adjust for different microscopes
+	makeRectangle(300, 300, 600, 600); 
+	run("Crop");
+	
+	//Rename the image stack
+	rename("Stack");
+	
+	//Subtract background counts - define the path for where AVG_Stack saved 
+	open("//rds.er.kcl.ac.uk/prj_ph_b_cell_apc_viscosity/Data_and_Analysis Oct2022-Sep2023/30.March_2023/20231403_Calcium_and_piezo_inhibitors_NIP3/Raw_data/No_laser/AVG_Stack.tif");
+	imageCalculator("Subtract create stack", "Stack","AVG_Stack.tif");
+	
+	//Create a median Z-projection
+	run("Z Project...", "projection=Median");
+	selectWindow("MED_Result of Stack");
+	
+	//Save median projection
+	outName1 = "MED_" + imagesName; 
+	saveAs("tif", outputDir + "/" + outName1);	
+	
+	//Find the mean value, display it and wait so can be viewed 
+	run("Set Measurements...", "mean redirect=None decimal=3");
+	run("Measure");
+	wait(1000);
+	
+	//Divide the image by the mean value 
+	//Use process-math-macro so do not have to manually enter the mean each time 
+	//v denotes pixel value
+	selectWindow("MED_" + imagesName);
+	run("Macro...", "code=[v=v/getResult(\"Mean\", 0)] stack");
+	run("Set Measurements...", "mean redirect=None decimal=3");
+	
+	//Measure the mean value again to check for normalization - mean value should be 1
+	run("Measure");
+	wait(1000);
+	
+	//Save the normalized image
+    outName2 = "Normalized_" + imagesName;
+	saveAs("tif", outputDir + "/" + outName2);
+	
+	//Clear the results and reset so the macro can be used again
+	selectWindow("Results"); 
+    run("Clear Results");
+    selectWindow("Results");
+    run("Close");
+    print("\\Clear");
+    run("Close All"); 
+}
