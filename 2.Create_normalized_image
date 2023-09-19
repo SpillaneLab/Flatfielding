@@ -57,14 +57,14 @@ for (i = 0; i < fileList.length; i++) {
 	wait(1000);
 	
 	//Save the normalized image
-    outName2 = "Normalized_" + imagesName;
+   	outName2 = "Normalized_" + imagesName;
 	saveAs("tif", outputDir + "/" + outName2);
 	
 	//Clear the results and reset so the macro can be used again
 	selectWindow("Results"); 
-    run("Clear Results");
-    selectWindow("Results");
-    run("Close");
-    print("\\Clear");
-    run("Close All"); 
+    	run("Clear Results");
+    	selectWindow("Results");
+    	run("Close");
+    	print("\\Clear");
+    	run("Close All"); 
 }
