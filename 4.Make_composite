@@ -10,7 +10,7 @@
    n = 0;
    processFiles(dir);
 
-   //Open all of the files within subfolders 
+//Open all of the files within subfolders 
    
    
    function countFiles(dir) {
