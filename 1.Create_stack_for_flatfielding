@@ -1,6 +1,6 @@
-	//Create a stack to be used to create a normalized image
+//Create a stack to be used to create a normalized image
 	
-	//Select all of the relevant directories 
+//Select all of the relevant directories 
    
    dir = getDirectory("Choose an input directory");
    outputDir = getDirectory("Select an output directory");
